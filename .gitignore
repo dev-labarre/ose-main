@@ -1,0 +1,80 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Data (ne pas versionner les données)
+data/raw/
+data/processed/
+data/feature_store/
+data/modeling/
+*.csv
+*.parquet
+*.json
+!config/*.json
+!config/*.yaml
+
+# Models & artifacts
+*.pkl
+*.joblib
+*.onnx
+models/
+artifacts/
+
+# Logs
+*.log
+logs/
+
+# Models & artifacts
+models/
+*.pkl
+*.joblib
+*.onnx
+
+# Environment variables
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# MLOps / experiments
+.mlflow/
+mlruns/
+wandb/
+
