@@ -1,140 +1,97 @@
-# Opportunity Scoring Engine (OSE)
+# Business Opportunity Classifier
 
-Moteur de scoring d'opportunité (0–100 %) basé sur les signaux d'activité, articles, attributs entreprise et référentiels métier.
+🎯 **Goal**: Classify companies as "Good Business Opportunity" vs "Not Good Opportunity" by combining article text analysis with company features using sklearn Pipeline.
 
----
+## Setup Instructions
 
-## Architecture du Repository
+### Python 3.10 Environment Setup (pyenv)
 
-Cette structure de repository est organisée selon les principes de séparation des responsabilités et de modularité pour faciliter le développement en équipe.
+#### Prerequisites
+Ensure you have `pyenv` installed. If not, install it:
+```bash
+# macOS (via Homebrew)
+brew install pyenv
 
-### Structure des dossiers
-
-```
-OSE main/
-├── README.md                    # Ce fichier
-├── .gitignore                   # Fichiers à ignorer par Git
-│
-├── src/                         # Code source principal
-│   └── ose_core/                # Package principal OSE
-│       ├── config/              # Configuration (chemins, paramètres)
-│       ├── data_ingestion/      # Pipelines d'ingestion des données
-│       ├── feature_engineering/ # Construction des features ML-ready
-│       ├── model/               # Entraînement et évaluation du modèle
-│       ├── scoring/             # Logique de scoring et ranking
-│       ├── api/                 # API REST (FastAPI)
-│       ├── mlops/               # Versioning, monitoring, déploiement
-│       └── utils/               # Utilitaires partagés
-│
-├── docs/                        # Documentation technique
-│   ├── architecture.md          # Architecture globale du projet
-│   ├── api_spec.md              # Spécification des endpoints API
-│   └── data_dictionary.md       # Dictionnaire des données
-│
-├── tests/                       # Tests unitaires et E2E
-│   ├── test_data_ingestion.py
-│   ├── test_feature_engineering.py
-│   ├── test_model.py
-│   ├── test_scoring.py
-│   └── test_api.py
-│
-├── data/                        # Données (non versionnées dans Git)
-│   ├── raw/                     # Données raw (signals, articles, company JSON)
-│   ├── processed/               # Données nettoyées et normalisées
-│   ├── feature_store/           # Tables de features par entreprise
-│   └── modeling/                # Datasets d'entraînement/validation
-│
-├── config/                      # Fichiers de configuration
-│   ├── logging.yaml
-│   ├── api_config.yaml
-│   └── model_config.yaml
-│
-├── notebooks/                   # Notebooks Jupyter pour exploration
-│   ├── 01_exploration_signaux.ipynb
-│   ├── 02_feature_prototyping.ipynb
-│   └── 03_model_experiments.ipynb
-│
-└── deployment/                  # Scripts et configs de déploiement
-    ├── docker/
-    │   ├── Dockerfile.api
-    │   └── Dockerfile.training
-    └── scripts/
-        ├── run_api.sh
-        └── run_training.sh
+# Linux - follow pyenv installation guide
+# https://github.com/pyenv/pyenv#installation
 ```
 
----
+#### 1. Create Python 3.10 Virtual Environment
 
-## Description des modules
+```bash
+# Install Python 3.10.6 (if not already installed)
+pyenv install -s 3.10.6
 
-### `src/ose_core/`
+# Create virtualenv named ose-env
+pyenv virtualenv 3.10.6 ose-env
 
-**Package principal** contenant toute la logique métier du moteur de scoring.
+# Activate the environment
+pyenv activate ose-env
+```
 
-- **`config/`** : Gestion centralisée de la configuration (chemins de données, paramètres de modèles, config API).
-- **`data_ingestion/`** : Chargement et normalisation des sources de données (signals, articles, company JSON, référentiels NAF/géo).
-- **`feature_engineering/`** : Construction des features ML-ready (recency, volumétrie 3/6/12 mois, diversité, intensité, signaux positifs/red flags).
-- **`model/`** : Entraînement, évaluation, calibration et génération d'explications du modèle de scoring.
-- **`scoring/`** : Fonctions de scoring d'entreprise et logique de ranking (Top 10 opportunités).
-- **`api/`** : Application FastAPI exposant les endpoints REST (`/health`, `/api/v1/score`, `/api/v1/top-opportunities`).
-- **`mlops/`** : Versioning des données et modèles, monitoring de drift, jobs batch.
-- **`utils/`** : Utilitaires partagés (logging, I/O, validations).
+#### 2. Upgrade pip and Install Dependencies
 
-### `docs/`
+```bash
+# Upgrade pip first
+python -m pip install --upgrade pip
 
-Documentation technique de référence pour l'équipe.
+# Install project requirements
+pip install -r requirements.txt
+```
 
-- **`architecture.md`** : Vue d'ensemble de l'architecture, découpage en composants, plan de travail priorisé.
-- **`api_spec.md`** : Spécification détaillée des endpoints API (schémas request/response).
-- **`data_dictionary.md`** : Dictionnaire des données (champs, types, sources).
+#### 3. Register Jupyter Kernel
 
-### `tests/`
+```bash
+# Register kernel for Jupyter (named ose-env)
+python -m ipykernel install --user --name ose-env --display-name "Python (ose-env)"
+```
 
-Suite de tests automatisés (pytest).
+#### 4. Verify Installation
 
-- Tests unitaires par module (data ingestion, features, modèle, scoring, API).
-- Tests E2E du pipeline complet et de l'API.
+```bash
+# Verify Python version
+python -V  # Should show Python 3.10.x
 
-### `data/`
+# Verify all imports work
+python -c "import pandas, sklearn, xgboost, keras, tensorflow; print('✓ All imports OK')"
 
-Stockage des données (à ajouter dans `.gitignore`).
+# Verify sklearn components
+python -c "from sklearn.pipeline import Pipeline; from sklearn.impute import SimpleImputer, KNNImputer; from sklearn.preprocessing import StandardScaler, RobustScaler, OneHotEncoder; from sklearn.decomposition import PCA; from sklearn.cluster import KMeans; from sklearn.neighbors import NearestNeighbors; print('✓ sklearn components OK')"
 
-- **`raw/`** : Données sources brutes.
-- **`processed/`** : Données nettoyées et normalisées.
-- **`feature_store/`** : Tables de features par entreprise.
-- **`modeling/`** : Datasets d'entraînement/validation/test.
+# Verify Keras
+python -c "from keras.layers import Normalization; print('✓ Keras OK')"
 
-### `config/`
+# Verify Jupyter kernel
+jupyter kernelspec list  # Should show Python (ose-env)
+```
 
-Fichiers de configuration (YAML, JSON) pour logging, API, modèles.
+#### 5. Run the Notebook
 
-### `notebooks/`
+Open and run the notebook:
+```bash
+jupyter notebook notebooks/05_business_opportunity_classifier.ipynb
+```
 
-Notebooks Jupyter pour exploration, prototypage de features, expérimentations de modèles.
+**Note:** Make sure to select the "Python (ose-env)" kernel in Jupyter.
 
-### `deployment/`
+## Project Structure
 
-Scripts et configurations pour le déploiement (Docker, scripts shell, éventuellement Kubernetes).
+- `notebooks/` - Jupyter notebooks for the classifier
+- `data/` - Dataset files
+- `requirements.txt` - Python dependencies
 
----
+## Key Features
 
-## Plan de développement (phases)
+- ✅ sklearn Pipeline with ColumnTransformer for mixed data types
+- ✅ Pipeline visualization using sklearn's diagram display
+- ✅ Text features from article titles (TF-IDF)
+- ✅ Company features (financial, workforce, structure, flags, contacts)
+- ✅ Binary classification with comprehensive evaluation
+- ✅ Top 10 companies ranked by opportunity score
 
-1. **Phase 1 – Fondations data** : Implémenter `data_ingestion/` et normaliser les sources.
-2. **Phase 2 – Features ML-ready** : Construire les features dans `feature_engineering/`.
-3. **Phase 3 – Modèle explicable** : Entraîner et calibrer le modèle dans `model/`.
-4. **Phase 4 – API REST** : Exposer les endpoints dans `api/`.
-5. **Phase 5 – MLOps & prod** : Ajouter versioning, monitoring, déploiement dans `mlops/`.
+## Business Logic
 
----
-
-## Prochaines étapes
-
-1. Initialiser le projet Python (`pyproject.toml` ou `requirements.txt`).
-2. Implémenter les modules dans l'ordre des phases.
-3. Compléter la documentation au fur et à mesure.
-
----
-
-**Note** : Cette structure est la base initiale du repository. Elle sera enrichie au fil du développement.
+- Positive signals: Investissements, Recrutement, Construction, Levée de fonds
+- Negative signals: Vente & Cession, RJ & LJ, Restructuration, Licenciement
+- Target: Good opportunity if (positive > negative) OR (positive >= 2)
 
