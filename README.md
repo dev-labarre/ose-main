@@ -1,22 +1,54 @@
-# Business Opportunity Classifier
+# OSE Project
 
 🎯 **Goal**: Classify companies as "Good Business Opportunity" vs "Not Good Opportunity" by combining article text analysis with company features using sklearn Pipeline.
 
-## Setup Instructions
+## 📁 Project Structure
+
+```
+ose-main/
+├── Notebooks/
+│   └── 01_dataset_visualization_v2.ipynb
+├── src/
+│   └── ose_core/
+│       ├── config/
+│       ├── data/
+│       │   └── extracted_datasets/
+│       ├── feature_engineering/
+│       ├── mlops/
+│       ├── model/
+│       ├── scoring/
+│       └── utils/
+├── tests/
+│   ├── test_api.py
+│   ├── test_data.py
+│   ├── test_feature_engineering.py
+│   ├── test_model.py
+│   └── test_scoring.py
+├── QUICK_SETUP.md
+├── README.md
+├── requirements.txt
+└── SETUP.sh
+```
+
+## 🚀 Setup Instructions
 
 ### Python 3.10 Environment Setup (pyenv)
 
-#### Prerequisites
-Ensure you have `pyenv` installed. If not, install it:
-```bash
-# macOS (via Homebrew)
-brew install pyenv
+#### 📋 Prerequisites
 
-# Linux - follow pyenv installation guide
-# https://github.com/pyenv/pyenv#installation
+Ensure you have `pyenv` installed. If not, install it:
+
+**macOS (via Homebrew):**
+```bash
+brew install pyenv
 ```
 
-#### 1. Create Python 3.10 Virtual Environment
+**Linux:**
+Follow the [pyenv installation guide](https://github.com/pyenv/pyenv#installation)
+
+---
+
+#### 1️⃣ Create Python 3.10 Virtual Environment
 
 ```bash
 # Install Python 3.10.6 (if not already installed)
@@ -29,7 +61,9 @@ pyenv virtualenv 3.10.6 ose-env
 pyenv activate ose-env
 ```
 
-#### 2. Upgrade pip and Install Dependencies
+---
+
+#### 2️⃣ Upgrade pip and Install Dependencies
 
 ```bash
 # Upgrade pip first
@@ -39,14 +73,20 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-#### 3. Register Jupyter Kernel
+---
+
+#### 3️⃣ Register Jupyter Kernel
 
 ```bash
 # Register kernel for Jupyter (named ose-env)
 python -m ipykernel install --user --name ose-env --display-name "Python (ose-env)"
 ```
 
-#### 4. Verify Installation
+---
+
+#### 4️⃣ Verify Installation
+
+Run these commands to verify everything is set up correctly:
 
 ```bash
 # Verify Python version
@@ -65,20 +105,31 @@ python -c "from keras.layers import Normalization; print('✓ Keras OK')"
 jupyter kernelspec list  # Should show Python (ose-env)
 ```
 
-#### 5. Run the Notebook
+---
+
+#### 5️⃣ Run the Notebook
 
 Open and run the notebook:
+
 ```bash
 jupyter notebook notebooks/05_business_opportunity_classifier.ipynb
 ```
 
-**Note:** Make sure to select the "Python (ose-env)" kernel in Jupyter.
+> **Note:** Make sure to select the "Python (ose-env)" kernel in Jupyter.
 
-## Project Structure
+## 📦 Key Components
 
-- `notebooks/` - Jupyter notebooks for the classifier
-- `data/` - Dataset files
-- `requirements.txt` - Python dependencies
+- **`Notebooks/`** - Jupyter notebooks for data visualization and analysis
+- **`src/ose_core/`** - Core project modules:
+  - `data/` - Data loading utilities and extracted datasets
+  - `config/` - Configuration files
+  - `feature_engineering/` - Feature engineering modules
+  - `model/` - Model definitions and training
+  - `scoring/` - Scoring and evaluation modules
+  - `mlops/` - MLOps utilities
+  - `utils/` - Utility functions
+- **`tests/`** - Unit tests for all modules
+- **`requirements.txt`** - Python dependencies
 
 ## Key Features
 
