@@ -27,7 +27,7 @@ ose-main/
 ├── QUICK_SETUP.md
 ├── README.md
 ├── requirements.txt
-└── SETUP.sh
+└── Makefile
 ```
 
 ## 🚀 Setup Instructions
@@ -48,7 +48,25 @@ Follow the [pyenv installation guide](https://github.com/pyenv/pyenv#installatio
 
 ---
 
-#### 1️⃣ Create Python 3.10 Virtual Environment
+#### 1️⃣ Quick Setup (Recommended)
+
+```bash
+# Run the setup Makefile target (does everything automatically)
+make setup
+```
+
+This will:
+- Install Python 3.10.6 (if not already installed)
+- Create virtualenv named `ose-env`
+- Upgrade pip
+- Install all project requirements
+- Register Jupyter kernel
+
+---
+
+#### 2️⃣ Manual Setup (Alternative)
+
+If you prefer to set up manually:
 
 ```bash
 # Install Python 3.10.6 (if not already installed)
@@ -59,41 +77,36 @@ pyenv virtualenv 3.10.6 ose-env
 
 # Activate the environment
 pyenv activate ose-env
-```
 
----
-
-#### 2️⃣ Upgrade pip and Install Dependencies
-
-```bash
 # Upgrade pip first
 python -m pip install --upgrade pip
 
 # Install project requirements
 pip install -r requirements.txt
-```
 
----
-
-#### 3️⃣ Register Jupyter Kernel
-
-```bash
 # Register kernel for Jupyter (named ose-env)
 python -m ipykernel install --user --name ose-env --display-name "Python (ose-env)"
 ```
 
 ---
 
-#### 4️⃣ Verify Installation
+#### 3️⃣ Verify Installation
 
-Run these commands to verify everything is set up correctly:
+Run the verification command:
+
+```bash
+# Quick verification using Makefile
+make verify
+```
+
+Or verify manually:
 
 ```bash
 # Verify Python version
 python -V  # Should show Python 3.10.x
 
 # Verify all imports work
-python -c "import pandas, sklearn, xgboost, keras, tensorflow; print('✓ All imports OK')"
+python -c "import pandas, sklearn, xgboost, keras, tensorflow, shap; print('✓ All imports OK')"
 
 # Verify sklearn components
 python -c "from sklearn.pipeline import Pipeline; from sklearn.impute import SimpleImputer, KNNImputer; from sklearn.preprocessing import StandardScaler, RobustScaler, OneHotEncoder; from sklearn.decomposition import PCA; from sklearn.cluster import KMeans; from sklearn.neighbors import NearestNeighbors; print('✓ sklearn components OK')"

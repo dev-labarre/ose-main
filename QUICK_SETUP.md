@@ -27,6 +27,9 @@ python -V  # Should show Python 3.10.x
 # Verify all imports work
 python -c "import pandas, sklearn, xgboost, keras, tensorflow; print('OK')"
 
+# Verify shap
+python -c "import shap; print('OK')"
+
 # Verify sklearn components
 python -c "from sklearn.pipeline import Pipeline; from sklearn.impute import SimpleImputer, KNNImputer; from sklearn.preprocessing import StandardScaler, RobustScaler, OneHotEncoder; from sklearn.decomposition import PCA; from sklearn.cluster import KMeans; from sklearn.neighbors import NearestNeighbors; print('OK')"
 
@@ -37,9 +40,19 @@ python -c "from keras.layers import Normalization; print('OK')"
 jupyter kernelspec list  # Should show Python (ose-env)
 ```
 
-## Alternative: Run Setup Script
+## Alternative: Use Makefile
 
 ```bash
-bash SETUP.sh
+# Full setup (recommended)
+make setup
+
+# Or just install/upgrade requirements
+make install
+
+# Verify installation
+make verify
+
+# Show all available commands
+make help
 ```
 
