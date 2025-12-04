@@ -38,6 +38,7 @@ ENV/
 *.ipynb_checkpoints
 
 # Data (ne pas versionner les données)
+src/ose_core/data raw/
 data/raw/
 data/processed/
 data/feature_store/
@@ -77,4 +78,3 @@ Thumbs.db
 .mlflow/
 mlruns/
 wandb/
-
