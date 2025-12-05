@@ -153,6 +153,16 @@ jupyter notebook notebooks/05_business_opportunity_classifier.ipynb
 - ✅ Binary classification with comprehensive evaluation
 - ✅ Top 10 companies ranked by opportunity score
 
+## Data Extraction Pipeline
+
+- The fast extraction pipeline lives in `src/ose_core/pipelines/` and mirrors the v3.1 workflow from `_Data_Extract_Viz_agro`.
+- It produces the 9 datasets consumed by `DataLoader` (`src/ose_core/data`), preserving the same schema (`company_name`, `siren`, `siret` + dataset-specific columns).
+- Default settings live in `src/ose_core/config/extraction_config.yaml` (chunk size, output directory, dataset names).
+- Example usage is available in `Notebooks/00_data_extraction.ipynb`:
+  - set JSONL input paths (`company`, `article`, `project`)
+  - run `make_extract_pipeline(...)`
+  - save with `save_datasets_to_dir(...)` to `src/ose_core/data/extracted_datasets/`
+
 ## Business Logic
 
 - Positive signals: Investissements, Recrutement, Construction, Levée de fonds

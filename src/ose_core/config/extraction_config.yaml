@@ -1,0 +1,12 @@
+chunk_size: 10000
+output_dir: "../src/ose_core/data/extracted_datasets"
+datasets:
+  - 01_company_basic_info
+  - 02_financial_data
+  - 03_workforce_data
+  - 04_company_structure
+  - 05_classification_flags
+  - 06_contact_metrics
+  - 07_kpi_data
+  - 08_signals
+  - 09_articles
